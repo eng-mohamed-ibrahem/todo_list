@@ -5,25 +5,37 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo/root_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo/data_source/todo_data_source/shared_pref_todo_data_source.dart';
+import 'package:todo/model/todo_model/todo_model.dart';
+import 'package:todo/repositories/home_repo/home_repo_impl.dart';
+import 'package:todo/repositories/user_repo/user_repo_impl.dart';
+import 'package:todo/view_model/home_viewmodel/home_viewmodel.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const RootApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+  group('todo tests', () {
+    late HomeViewModel homeCubit;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    setUp(() {
+      homeCubit = HomeViewModel(
+        homeRepo: HomeRepoImpl(todoDataSource: SharedPrefTodoDataSource()),
+        userRepo: UserRepoImpl(todoDataSource: SharedPrefTodoDataSource()),
+      );
+    });
+    blocTest<HomeViewModel, HomeViewModelState>(
+      'emits [_AddTodoSuccess] when task is added',
+      build: () => homeCubit,
+      act: (cubit) =>
+          cubit.addTodo(const TodoModel(id: '1', title: 'Test Todo')),
+      expect: () => [
+        const HomeViewModelState.addTodoLoading(),
+        const HomeViewModelState.addTodoSuccess(
+            todo: TodoModel(id: '1', title: 'Test Todo')),
+      ],
+    );
   });
 }

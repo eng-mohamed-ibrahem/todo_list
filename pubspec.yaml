@@ -32,6 +32,7 @@ dev_dependencies:
   freezed: ^2.5.7
   build_runner: ^2.4.13
   json_serializable: ^6.6.1
+  bloc_test: ^9.1.7
   
 
 

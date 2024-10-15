@@ -1,16 +1,16 @@
-# todo
+# To-Do List App (MD Lab assignment)
 
-A new Flutter project.
+This is a simple To-Do List app with the following functionalities:
 
-## Getting Started
+- Display a list of tasks with title and checkbox.
+- Allow adding new tasks with a text field and button.
+- Mark tasks as completed by tapping on the checkbox.
+- Implement basic persistence for tasks using Shared Preferences (or a similar solution).
+- Implement unit tests for core functionalities (adding tasks, marking complete).
 
-This project is a starting point for a Flutter application.
+## How to use this repo/app
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository using `git clone <git-repo-url>`.
+2. Open the project in your preferred code editor/IDE.
+3. Install the dependencies using `flutter pub get`.
+4. Run the app using `flutter run`.
